@@ -37,7 +37,7 @@ class ServerFunctions extends Thread {
         this.socket=socket;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        Serv.readers.add(in);
+        Serv.readers.add(in);                                                      //added reader and writer to lists
         Serv.writers.add(out);
     }
     String message="";
@@ -46,21 +46,21 @@ class ServerFunctions extends Thread {
         int number=Serv.listOfSockets.size()-1;
         try {
 
-            out.write("Welcome to server!\n");
+            out.write("Welcome to server!\n");                                    //message for coming user
             out.flush();
             while(true){
-                if (message.equalsIgnoreCase("Stop")) {
+                if (message.equalsIgnoreCase("Stop")) {                 //keyword "stop" is used to finish chatting
                     in.close();
                     out.close();
-                    Serv.writers.remove(number);
+                    Serv.writers.remove(number);                        //remove everything connected to socket
                     Serv.readers.remove(number);
                     Serv.listOfSockets.get(number).close();
                     Serv.listOfSockets.remove(number);
                     break;
                 }else {
-                    message = in.readLine();
+                    message = in.readLine();                                //retranslate message to every user
                     for (int i = 0; i < Serv.listOfSockets.size(); i++) {
-                        Serv.writers.get(i).write("User" + number + ": " + message + "\n");
+                        Serv.writers.get(i).write("User" + number + ": " + message + "\n"); 
                         Serv.writers.get(i).flush();
                     }
                 }
