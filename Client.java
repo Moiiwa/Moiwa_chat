@@ -13,8 +13,8 @@ public class Client {
     public static BufferedWriter out;
     public static void main(String[] args){
         try {
-            byte adr[]=new byte[]{(byte)192,(byte)168,0,(byte)191};
-            socket = new Socket(InetAddress.getByAddress(adr),1337);
+            byte adr[]=new byte[]{(byte)192,(byte)168,0,(byte)191};         //put your adress instead
+            socket = new Socket(InetAddress.getByAddress(adr),1337);        //and socket, if needed
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
