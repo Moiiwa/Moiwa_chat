@@ -12,15 +12,15 @@ public class Serv extends Thread {
     public static ArrayList<BufferedWriter> writers;
     public static void main(String[] args){
         try {
-            byte adr[]=new byte[]{(byte)192,(byte)168,0,(byte)191};
-            serverSocket = new ServerSocket(1337,40,InetAddress.getByAddress(adr));
-            listOfSockets = new ArrayList();
-            readers=new ArrayList<>();
-            writers=new ArrayList<>();
-            while(true){
-                Socket clientSocket = serverSocket.accept();
-                listOfSockets.add(clientSocket);
-                new ServerFunctions(clientSocket).start();
+            byte adr[]=new byte[]{(byte)192,(byte)168,0,(byte)191};                 //change adress and port if needed
+            serverSocket = new ServerSocket(1337,40,InetAddress.getByAddress(adr)); // serverSocket is initialised
+            listOfSockets = new ArrayList();                                        // list of connected socket initialised as new arraylist
+            readers=new ArrayList<>();                                              //intialised list of reading streams
+            writers=new ArrayList<>();                                              //initialised list of writing streams
+            while(true){                                                            //infinite loop in main daemon thread
+                Socket clientSocket = serverSocket.accept();                        //waiting for connection
+                listOfSockets.add(clientSocket);                
+                new ServerFunctions(clientSocket).start();                          //starts new thread for work with concrete socket
             }
 
         } catch (IOException e) {
@@ -31,8 +31,8 @@ public class Serv extends Thread {
 }
 class ServerFunctions extends Thread {
     private Socket socket;
-    private  BufferedReader in;
-    private BufferedWriter out;
+    private  BufferedReader in;                                                     //create socket's reader and writer
+    private BufferedWriter out;                                                     
     public ServerFunctions(Socket socket) throws IOException{
         this.socket=socket;
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
